@@ -15,3 +15,7 @@ requestReset, resetPassword, Apollo instead of fetch
 
 v3:
 TypeScript with types and hooks generated from a schema
+
+# Notes:
+
+Need to use netlify-cli@2.12.0 because https://github.com/netlify/cli/issues/659
