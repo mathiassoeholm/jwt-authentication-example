@@ -6,11 +6,14 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "bcryptjs": "^2.4.3",
     "encoding": "^0.1.12",
+    "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
+    "waait": "^1.0.5",
     "wouter": "^2.4.0"
   },
   "scripts": {
