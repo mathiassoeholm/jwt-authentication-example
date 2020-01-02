@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bcryptjs": "^2.4.3",
+    "cookie": "^0.4.0",
     "encoding": "^0.1.12",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
