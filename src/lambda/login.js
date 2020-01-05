@@ -12,26 +12,27 @@ export async function handler(event, context) {
     const { email, password } = JSON.parse(event.body);
 
     const existingUser = await users.findOne({ email });
-    if (existingUser !== null) {
-      console.log(existingUser)
+    if (existingUser == null) {
       // TODO: Don't return 500
-      throw new Error(`A user already exists with the email: ${email}`);
+      throw new Error(`Invalid password or email`);
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const matches = await bcrypt.compare(password, existingUser.password);
 
-    const { insertedId } = await users.insertOne({
-      email,
-      password: passwordHash
-    });
+    if (!matches) {
+      // TODO: Don't return 500
+      throw new Error(`Invalid password or email`);
+    }
+
+    const userId = existingUser._id;
 
     return {
       statusCode: 200,
       headers: {
-        "Set-Cookie": createJwtCookie(insertedId),
+        "Set-Cookie": createJwtCookie(userId),
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ id: insertedId, email })
+      body: JSON.stringify({ id: userId, email })
     };
   } catch (err) {
     console.log(err);
