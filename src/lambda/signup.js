@@ -1,22 +1,33 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
+import { MongoClient } from "mongodb";
 
 const SECONDS_UNTIL_JWT_EXPIRES = 100 * 24 * 60 * 60;
+const dbName = "jwt-authentication-example";
 
 export async function handler(event, context) {
-  try {
-    // 1. Get email and password from the request body
-    const { email, password } = JSON.parse(event.body);
+  const mongoClient = new MongoClient(
+    `mongodb+srv://admin:${process.env.MONGODB_PASSWORD}@cluster0-k4kqg.mongodb.net/test?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  );
 
-    // 2. Create a hash of the password
-    const passwordHash = bcrypt.hash(password, 10);
+  try {
+    const { email, password } = JSON.parse(event.body);
+    // TODO: Check if there's already a user with the same email and fail if there is
+
+    const passwordHash = await bcrypt.hash(password, 10);
     console.log("The passwordHash is", passwordHash);
 
-    // 3. Create new user in Prisma db with username and hashed password, graphql mutation with fetch
-    const userId = 1234;
+    await mongoClient.connect();
+    const db = mongoClient.db(dbName);
+    let result = await db.collection("users").insertOne({
+      email,
+      password: passwordHash
+    });
 
-    // 4. Generate JWT using private key from env
+    const userId = result.insertedId;
+
     const secretKey = `-----BEGIN RSA PRIVATE KEY-----${"\n"}${
       process.env.JWT_SECRET_KEY
     }${"\n"}-----END RSA PRIVATE KEY-----`;
@@ -27,15 +38,12 @@ export async function handler(event, context) {
     const token = jwt.sign(jwtPayload, secretKey, {
       algorithm: "RS256"
     });
-    console.log("The JWT key is", token);
 
-    // 5. Create cookie with the JWT
     const jwtCookie = cookie.serialize("jwt", token, {
       secure: true,
       httpOnly: true
     });
 
-    // 6. Respond with user id and cookie
     return {
       statusCode: 200,
       headers: {
@@ -50,5 +58,7 @@ export async function handler(event, context) {
       statusCode: 500,
       body: JSON.stringify({ msg: err.message })
     };
+  } finally {
+    mongoClient.close();
   }
 }
