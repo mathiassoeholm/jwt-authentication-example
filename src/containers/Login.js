@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "wouter";
 import { Form } from "../presentational/Form";
+import { useUser } from "../hooks/use-user";
 
 function Login() {
-  const onSubmit = inputs => {
-    return fetch("/.netlify/functions/login", {
+  const { saveUser } = useUser();
+
+  const onSubmit = async inputs => {
+    let response = await fetch("/.netlify/functions/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -15,6 +18,11 @@ function Login() {
         password: inputs.password
       })
     });
+
+    if (response.ok) {
+      const user = await response.json();
+      saveUser(user);
+    }
   };
 
   const inputs = [

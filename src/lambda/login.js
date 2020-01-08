@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { createClient } from "../helpers/db-helper";
 import { createJwtCookie } from "../helpers/jwt-helper";
 
-export async function handler(event, context) {
+export async function handler(event) {
   const dbClient = createClient();
 
   try {
@@ -29,7 +29,7 @@ export async function handler(event, context) {
     return {
       statusCode: 200,
       headers: {
-        "Set-Cookie": createJwtCookie(userId),
+        "Set-Cookie": createJwtCookie(userId, email),
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ id: userId, email })

@@ -1,31 +1,19 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const UserContext = createContext({});
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(undefined);
+  const localUserJson = localStorage.getItem("user");
+  const localUser = localUserJson && JSON.parse(localUserJson);
+  const [user, setUser] = useState(localUser);
 
-  const fetchUser = async () => {
-    try {
-      const user = await fetch("/.netlify/functions/user", {
-        method: "GET",
-        headers: {
-          Accept: "application/json"
-        }
-      }).json();
-
-      setUser(user);
-    } catch (e) {
-      console.error(e);
-    }
+  const saveUser = user => {
+    setUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   return (
-    <UserContext.Provider value={{ fetchUser, user }}>
+    <UserContext.Provider value={{ user, saveUser }}>
       {children}
     </UserContext.Provider>
   );
