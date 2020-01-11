@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch, Redirect } from "wouter";
 
-import { Login } from "./containers/Login";
-import { Signup } from "./containers/Signup";
+import { Login } from "./pages/Login";
+import { Signup } from "./pages/Signup";
 
 function UnauthenticatedApp() {
   return (

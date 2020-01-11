@@ -1,15 +1,12 @@
 import React from "react";
 import { Route, Switch, Redirect } from "wouter";
-import { useUser } from "./hooks/use-user";
+import { Home } from "./pages/Home";
 
 function AuthenticatedApp() {
-  const { user } = useUser();
-
   return (
     <Switch>
       <Route path="/">
-        <p>Logged in as: {user.email}</p>
-        <button>Logout</button>
+        <Home />
       </Route>
       <Route path="/login">
         <Redirect to="/" />
