@@ -13,7 +13,8 @@ function createJwtCookie(userId, email) {
 
   const jwtCookie = cookie.serialize("jwt", token, {
     secure: true,
-    httpOnly: true
+    httpOnly: true,
+    path: "/"
   });
 
   return jwtCookie;
