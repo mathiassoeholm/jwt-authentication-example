@@ -1,10 +1,10 @@
 import React from "react";
 import { UnauthenticatedApp } from "./UnauthenticatedApp";
 import { AuthenticatedApp } from "./AuthenticatedApp";
-import { useUser } from "./hooks/use-user";
+import { useAuth } from "./providers/auth-provider";
 
 function App() {
-  const { user } = useUser();
+  const { user } = useAuth();
   return user ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 }
 

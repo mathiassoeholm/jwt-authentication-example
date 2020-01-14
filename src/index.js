@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { UserProvider } from "./hooks/use-user";
+import { AuthProvider } from "./providers/auth-provider";
 
 ReactDOM.render(
-  <UserProvider>
+  <AuthProvider>
     <App />
-  </UserProvider>,
+  </AuthProvider>,
   document.getElementById("root")
 );

@@ -1,10 +1,8 @@
 import React from "react";
-import { useUser } from "../hooks/use-user";
-import { useLogout } from "../hooks/use-logout";
+import { useAuth } from "../providers/auth-provider";
 
 function Home() {
-  const { user } = useUser();
-  const logout = useLogout();
+  const { user, logout } = useAuth();
 
   return (
     <>

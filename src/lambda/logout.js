@@ -5,8 +5,8 @@ export async function handler() {
     statusCode: 200,
     headers: {
       "Set-Cookie": clearCookie(),
-      "Content-Type": "text/plain"
+      "Content-Type": "application/json"
     },
-    body: "Logged out succesfully"
+    body: JSON.stringify({ message: "Logged out successfully" })
   };
 }

@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "wouter";
 import { Form } from "../components/Form";
-import { useLogin } from "../hooks/use-login";
+import { useAuth } from "../providers/auth-provider";
 
 function Login() {
-  const login = useLogin();
+  const { login } = useAuth();
 
   const inputs = [
     {
