@@ -25,7 +25,7 @@ function Form(props) {
             <label key={i.name}>
               {i.name}
               <input
-                value={input[i.name]}
+                value={input[i.name] || ""}
                 type={i.type}
                 onChange={e => {
                   const value = e.target.value;
