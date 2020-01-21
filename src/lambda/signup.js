@@ -4,6 +4,7 @@ import { createJwtCookie } from "../helpers/jwt-helper";
 
 export async function handler(event) {
   const dbClient = createClient();
+  let errorStatusCode = 500;
 
   try {
     await dbClient.connect();
@@ -13,8 +14,7 @@ export async function handler(event) {
 
     const existingUser = await users.findOne({ email });
     if (existingUser !== null) {
-      console.log(existingUser);
-      // TODO: Don't return 500
+      errorStatusCode = 409;
       throw new Error(`A user already exists with the email: ${email}`);
     }
 
@@ -36,7 +36,7 @@ export async function handler(event) {
   } catch (err) {
     console.log(err);
     return {
-      statusCode: 500,
+      statusCode: errorStatusCode,
       body: JSON.stringify({ msg: err.message })
     };
   } finally {

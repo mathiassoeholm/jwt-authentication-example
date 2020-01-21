@@ -4,6 +4,7 @@ import { createJwtCookie } from "../helpers/jwt-helper";
 
 export async function handler(event) {
   const dbClient = createClient();
+  let errorStatusCode = 500;
 
   try {
     await dbClient.connect();
@@ -13,14 +14,14 @@ export async function handler(event) {
 
     const existingUser = await users.findOne({ email });
     if (existingUser == null) {
-      // TODO: Don't return 500
+      errorStatusCode = 401;
       throw new Error(`Invalid password or email`);
     }
 
     const matches = await bcrypt.compare(password, existingUser.password);
 
     if (!matches) {
-      // TODO: Don't return 500
+      errorStatusCode = 401;
       throw new Error(`Invalid password or email`);
     }
 
@@ -35,9 +36,8 @@ export async function handler(event) {
       body: JSON.stringify({ id: userId, email })
     };
   } catch (err) {
-    console.log(err);
     return {
-      statusCode: 500,
+      statusCode: errorStatusCode,
       body: JSON.stringify({ msg: err.message })
     };
   } finally {
