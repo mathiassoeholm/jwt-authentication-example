@@ -34,7 +34,6 @@ export async function handler(event) {
       body: JSON.stringify({ id: insertedId, email })
     };
   } catch (err) {
-    console.log(err);
     return {
       statusCode: errorStatusCode,
       body: JSON.stringify({ msg: err.message })
