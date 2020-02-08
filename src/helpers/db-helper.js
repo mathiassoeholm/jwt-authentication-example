@@ -8,8 +8,8 @@ function createClient() {
     { useNewUrlParser: true, useUnifiedTopology: true }
   );
 
-  client.usersCollection = () => {
-    return client.db(dbName).collection("users");
+  client.usersCollection = function() {
+    return this.db(dbName).collection("users");
   };
 
   return client;
