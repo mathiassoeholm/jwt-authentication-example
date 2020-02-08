@@ -12,7 +12,7 @@ function createJwtCookie(userId, email) {
   });
 
   const jwtCookie = cookie.serialize("jwt", token, {
-    secure: true,
+    secure: process.env.NETLIFY_DEV !== "true",
     httpOnly: true,
     path: "/"
   });
