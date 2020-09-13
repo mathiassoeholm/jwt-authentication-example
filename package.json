@@ -11,7 +11,7 @@
     "encoding": "^0.1.12",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.4.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
